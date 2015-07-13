@@ -51,10 +51,10 @@ public class UraniumProtectMain extends JavaPlugin {
 		Config = YamlConfiguration.loadConfiguration(ConfigFile);
 		Integer[] temp;
 		
-		Config.addDefault("armor.Helmet", Helmet);
-		Config.addDefault("armor.Chestplate", Chestplate);
-		Config.addDefault("armor.Leggings", Leggings);
-		Config.addDefault("armor.Boots", Boots);
+		Config.addDefault("Helmet", Helmet);
+		Config.addDefault("Chestplate", Chestplate);
+		Config.addDefault("Leggings", Leggings);
+		Config.addDefault("Boots", Boots);
 		Config.addDefault("Sound", Sound);
 		temp = new Integer[] { 152, 155, 157, 161, 165, 166 };
 		Config.addDefault("Items", Arrays.asList(temp));

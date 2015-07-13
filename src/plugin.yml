@@ -1,0 +1,10 @@
+name: UraniumProtect
+main: ru.winside.UraniumProtect.UraniumProtectMain
+version: 0.4
+author: WinSide
+commands:
+   uraniumprotect:
+      aliases: uprotect
+permissions:
+    uprotect.all:
+        default: op

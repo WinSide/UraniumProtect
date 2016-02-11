@@ -17,8 +17,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.Metrics;
 
 public class UraniumProtectMain extends JavaPlugin {
-	public static List<Integer> blocked = new ArrayList<Integer>(1024);
-	private List<Integer> items = new ArrayList<Integer>(1024);
+	public static List<Integer> blocked = new ArrayList<Integer>();
+	private List<Integer> items = new ArrayList<Integer>();
 	static int Helmet;
 	static int Chestplate;
 	static int Leggings;
@@ -59,7 +59,7 @@ public class UraniumProtectMain extends JavaPlugin {
 		temp = new Integer[] { 152, 155, 157, 161, 165, 166 };
 		Config.addDefault("Items", Arrays.asList(temp));
 		Config.options().copyDefaults(true);
-		Config.addDefault("msg", "[UraniumProtect] Чтобы поднять предмет одень защитный костюм");
+		Config.addDefault("msg", "[UraniumProtect] Г—ГІГ®ГЎГ» ГЇГ®Г¤Г­ГїГІГј ГЇГ°ГҐГ¤Г¬ГҐГІ Г®Г¤ГҐГ­Гј Г§Г Г№ГЁГІГ­Г»Г© ГЄГ®Г±ГІГѕГ¬");
 		Config.save(ConfigFile);
 		Helmet = Config.getInt("Helmet");
 		Chestplate = Config.getInt("Chestplate");
@@ -80,7 +80,7 @@ public class UraniumProtectMain extends JavaPlugin {
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (args.length == 0) {
 			sender.sendMessage(ChatColor.AQUA
-					+ "[UraniumProtect] Используйте команду /uraniumprotect help для получения списка комманд");
+					+ "[UraniumProtect] Г€Г±ГЇГ®Г«ГјГ§ГіГ©ГІГҐ ГЄГ®Г¬Г Г­Г¤Гі /uraniumprotect help Г¤Г«Гї ГЇГ®Г«ГіГ·ГҐГ­ГЁГї Г±ГЇГЁГ±ГЄГ  ГЄГ®Г¬Г¬Г Г­Г¤");
 			return true;
 		} else if ((args.length == 1) && args[0].equalsIgnoreCase("help")) {
 			help(sender);
@@ -101,7 +101,7 @@ public class UraniumProtectMain extends JavaPlugin {
 					e.printStackTrace();
 				}
 				sender.sendMessage(ChatColor.AQUA
-						+ "[UraniumProtect] Плагин перезагружен");
+						+ "[UraniumProtect] ГЏГ«Г ГЈГЁГ­ ГЇГҐГ°ГҐГ§Г ГЈГ°ГіГ¦ГҐГ­");
 				return true;
 			} else if ((args.length == 1) && args[0].equalsIgnoreCase("armor")) {
 				sender.sendMessage(ChatColor.AQUA + "[UraniumProtect] "
@@ -119,9 +119,9 @@ public class UraniumProtectMain extends JavaPlugin {
 	private void help(CommandSender sender) {
 		sender.sendMessage(ChatColor.AQUA + "/uraniumprotect reload "
 				+ ChatColor.WHITE + "-" + ChatColor.AQUA
-				+ " перезагрузить плагин");
+				+ " ГЇГҐГ°ГҐГ§Г ГЈГ°ГіГ§ГЁГІГј ГЇГ«Г ГЈГЁГ­");
 		sender.sendMessage(ChatColor.AQUA + "/uraniumprotect list "
 				+ ChatColor.WHITE + "-" + ChatColor.AQUA
-				+ " вывести список предметов");
+				+ " ГўГ»ГўГҐГ±ГІГЁ Г±ГЇГЁГ±Г®ГЄ ГЇГ°ГҐГ¤Г¬ГҐГІГ®Гў");
 	}
 }

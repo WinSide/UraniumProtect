@@ -30,11 +30,7 @@ public class PickupItemListener implements Listener {
 				i++;
 
 				if ((i % 40) == 0) {
-					p.sendMessage(UraniumProtectMain.msg);
-					World w = p.getWorld();
-					if(UraniumProtectMain.Sound){
-						w.playSound(p.getLocation(), Sound.CLICK, 100, 1);
-					}
+					p.sendMessage(UraniumProtectMain.messageBuilder(UraniumProtectMain.msg));
 				}
 			}
 		}

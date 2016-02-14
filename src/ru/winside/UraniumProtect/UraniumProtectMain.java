@@ -23,26 +23,41 @@ public class UraniumProtectMain extends JavaPlugin {
 	static int Chestplate;
 	static int Leggings;
 	static int Boots;
-	static boolean Sound = true;
 	static String msg = "";
 	private FileConfiguration Config = null;
 	private File ConfigFile = null;
-
+	
+	public static String messageBuilder(String s){
+		return ChatColor.AQUA + "[UraniumProtect] " + s;
+	}
+	
 	@Override
 	public void onEnable() {
 		Bukkit.getPluginManager().registerEvents(new PickupItemListener(), this);
 
 		try {
 			Metrics metrics = new Metrics(this);
-	        metrics.start();
+	        	metrics.start();
 	        
 			loadConfiguration();
 			updateLists();
 		} catch (IOException e) {
-			System.out.print("[UraniumProtect] Can't load config!");
+			System.out.print(messageBuilder("Can't load config!"));
 		}
 	}
-
+	
+	private void reloadConfiguration(){
+		try {
+			Config.load(ConfigFile);
+			loadConfiguration();
+			updateLists();
+		} catch (IOException e) {
+			System.out.print(messageBuilder("Can't load config!"));
+		} catch (InvalidConfigurationException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void loadConfiguration() throws IOException {
 		if (ConfigFile == null) {
 		    ConfigFile = new File(getDataFolder() + File.separator, "config.yml");
@@ -55,18 +70,16 @@ public class UraniumProtectMain extends JavaPlugin {
 		Config.addDefault("Chestplate", Chestplate);
 		Config.addDefault("Leggings", Leggings);
 		Config.addDefault("Boots", Boots);
-		Config.addDefault("Sound", Sound);
 		temp = new Integer[] { 152, 155, 157, 161, 165, 166 };
 		Config.addDefault("Items", Arrays.asList(temp));
 		Config.options().copyDefaults(true);
-		Config.addDefault("msg", "[UraniumProtect] ×òîáû ïîäíÿòü ïðåäìåò îäåíü çàùèòíûé êîñòþì");
+		Config.addDefault("msg", "Чтобы поднять предмет одень защитный костюм");
 		Config.save(ConfigFile);
 		Helmet = Config.getInt("Helmet");
 		Chestplate = Config.getInt("Chestplate");
 		Leggings = Config.getInt("Leggings");
 		Boots = Config.getInt("Boots");
 		items = Config.getIntegerList("Items");
-		Sound = Config.getBoolean("Sound", true);
 		msg = Config.getString("msg");
 		msg = msg.replaceAll("&([0-9a-f])", "\u00A7$1");
 	}
@@ -79,49 +92,36 @@ public class UraniumProtectMain extends JavaPlugin {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (args.length == 0) {
-			sender.sendMessage(ChatColor.AQUA
-					+ "[UraniumProtect] Èñïîëüçóéòå êîìàíäó /uraniumprotect help äëÿ ïîëó÷åíèÿ ñïèñêà êîììàíä");
+			sender.sendMessage(messageBuilder("Используйте команду /uraniumprotect help для получения списка комманд"));
 			return true;
 		} else if ((args.length == 1) && args[0].equalsIgnoreCase("help")) {
 			help(sender);
 			return true;
 		} else if (sender.hasPermission("uprotect.all")) {
 			if ((args.length == 1) && args[0].equalsIgnoreCase("list")) {
-				sender.sendMessage(ChatColor.AQUA + "[UraniumProtect] "
-						+ blocked.toString());
+				sender.sendMessage(messageBuilder(blocked.toString()));
 				return true;
 			} else if ((args.length == 1) && args[0].equalsIgnoreCase("reload")) {
-				try {
-					Config.load(ConfigFile);
-					loadConfiguration();
-					updateLists();
-				} catch (IOException e) {
-					System.out.print("[UraniumProtect] Can't load config!");
-				} catch (InvalidConfigurationException e) {
-					e.printStackTrace();
-				}
-				sender.sendMessage(ChatColor.AQUA
-						+ "[UraniumProtect] Ïëàãèí ïåðåçàãðóæåí");
+				reloadConfiguration();
+				sender.sendMessage(messageBuilder("Плагин перезагружен"));
 				return true;
 			} else if ((args.length == 1) && args[0].equalsIgnoreCase("armor")) {
-				sender.sendMessage(ChatColor.AQUA + "[UraniumProtect] "
-						+ "Helmet-" + Helmet + " Chestplate-" + Chestplate
-						+ " Leggings-" + Leggings + " Boots-" + Boots);
+				sender.sendMessage(messageBuilder("Helmet-" + Helmet + " Chestplate-" + Chestplate
+						+ " Leggings-" + Leggings + " Boots-" + Boots));
 				return true;
 			}
 		} else {
-			sender.sendMessage(ChatColor.AQUA + "[UraniumProtect] "
-					+ ChatColor.RED + "You don't have permissions.");
+			sender.sendMessage(messageBuilder(ChatColor.RED + "You don't have permissions."));
 		}
 		return false;
 	}
 
 	private void help(CommandSender sender) {
-		sender.sendMessage(ChatColor.AQUA + "/uraniumprotect reload "
+		sender.sendMessage(messageBuilder("/uraniumprotect reload "
 				+ ChatColor.WHITE + "-" + ChatColor.AQUA
-				+ " ïåðåçàãðóçèòü ïëàãèí");
-		sender.sendMessage(ChatColor.AQUA + "/uraniumprotect list "
+				+ " перезагрузить плагин"));
+		sender.sendMessage(messageBuilder("/uraniumprotect list "
 				+ ChatColor.WHITE + "-" + ChatColor.AQUA
-				+ " âûâåñòè ñïèñîê ïðåäìåòîâ");
+				+ " вывести список предметов"));
 	}
 }
